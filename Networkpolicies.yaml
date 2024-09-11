@@ -1,0 +1,12 @@
+In Kubernetes, the components responsible for applying and enforcing NetworkPolicies are primarily the Kube-Controller-Manager and the network plugin (CNI).
+
+1. Kube-Controller-Manager:
+Role: The Kube-Controller-Manager includes the NetworkPolicy controller, which is responsible for watching for changes to NetworkPolicy resources and ensuring that they are applied to the appropriate namespaces and pods. However, the Kube-Controller-Manager itself does not enforce the NetworkPolicies.
+Process: When you create or modify a NetworkPolicy, the NetworkPolicy controller observes these changes and ensures that they are propagated to the networking components of the cluster.
+2. Network Plugin (CNI - Container Network Interface):
+Role: The actual enforcement of NetworkPolicies is handled by the network plugin or CNI (Container Network Interface) that is installed in the cluster. Examples of popular CNIs that support NetworkPolicies include Calico, Cilium, Weave, and others.
+Process: The CNI plugin interprets the NetworkPolicy rules and configures the underlying network to allow or deny traffic between pods according to those rules. This is done at the network level, usually by configuring iptables, eBPF, or other network-related tools to enforce the specified policies.
+Summary:
+Kube-Controller-Manager handles the lifecycle of NetworkPolicies (watching, updating).
+CNI Plugin (such as Calico, Cilium) is responsible for the actual enforcement of the NetworkPolicies in the cluster.
+Without a CNI plugin that supports NetworkPolicies, the policies would have no effect, even though they might be successfully applied by the Kubernetes API server.
